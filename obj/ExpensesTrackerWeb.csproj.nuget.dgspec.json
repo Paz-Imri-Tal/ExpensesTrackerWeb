@@ -51,6 +51,18 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
+            "Blazorise": {
+              "target": "Package",
+              "version": "[1.7.6, )"
+            },
+            "Blazorise.Bootstrap5": {
+              "target": "Package",
+              "version": "[1.7.6, )"
+            },
+            "Blazorise.Charts": {
+              "target": "Package",
+              "version": "[1.7.6, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[9.0.1, )"

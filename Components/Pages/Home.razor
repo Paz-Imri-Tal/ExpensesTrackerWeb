@@ -1,7 +1,119 @@
 ﻿@page "/"
+@using ExpensesTrackerWeb.Models
+@using ExpensesTrackerWeb.Data
+@inject ApplicationDbContext _context
+@using Microsoft.EntityFrameworkCore
 
 <PageTitle>Home</PageTitle>
+@rendermode InteractiveServer
 
-<h1>Hello, world!</h1>
+<h1>Expenses</h1>
 
-Welcome to your new app.
+<div class="flex-column justify-content-between align-items-center">
+    <div>
+        Total Amount <br />
+        @TotalAmount
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <EditForm Model="_model" OnValidSubmit="AddExpense">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group mt-4">
+                <label>Particulars</label>
+                <InputText @bind-Value="_model.Particular" class="form-control" />
+            </div>
+
+            <div class="form-group mt-4">
+                <label>Amount</label>
+                <InputNumber @bind-Value="_model.Amount" class="form-control" />
+            </div>
+
+            <div class="form-group mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success">Add Expense</button>
+                <button type="button" class="btn btn-secondary" @onclick="ResetForm">Cancel</button>
+            </div>
+        </EditForm>
+    </div>
+
+    <div class="col-sm-6">
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Particulars</th>
+                    <th>Amount</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var expense in expenses)
+                {
+                    <tr>
+                        <td>@expense.Particular</td>
+                        <td>@expense.Amount</td>
+                        <td><button @onclick="() => Edit(expense)" class="btn btn-sm btn-info">Edit</button></td>
+                        <td><button @onclick="() => Remove(expense)" class="btn btn-sm btn-danger">Remove</button></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    public Expense _model { get; set; } = new Expense();
+    public List<Expense> expenses { get; set; } = new();
+    double TotalAmount = 0;
+
+    protected override void OnInitialized()
+    {
+        GetExpenses();
+    }
+
+    void AddExpense()
+    {
+        if (_model.Id == 0)
+        {
+            _context.Add(_model);
+        }
+        else
+        {
+            _context.Update(_model);
+        }
+
+        _context.SaveChanges();
+        ResetForm();
+        GetExpenses();
+    }
+
+    void GetExpenses()
+    {
+        expenses = _context.Expenses.ToList();
+        TotalAmount = _context.Expenses.Sum(x => x.Amount);
+    }
+
+    void Edit(Expense expense)
+    {
+        _model = new Expense
+            {
+                Id = expense.Id,
+                Particular = expense.Particular,
+                Amount = expense.Amount
+            };
+    }
+
+    void Remove(Expense expense)
+    {
+        _context.Remove(expense);
+        _context.SaveChanges();
+        GetExpenses();
+    }
+
+    void ResetForm()
+    {
+        _model = new Expense();
+    }
+}

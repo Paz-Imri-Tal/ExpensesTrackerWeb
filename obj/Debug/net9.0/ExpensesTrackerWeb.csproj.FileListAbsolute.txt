@@ -202,3 +202,5 @@ C:\Users\pazab\Desktop\C#\ExpensesTrackerWeb\ExpensesTrackerWeb\obj\Debug\net9.0
 C:\Users\pazab\Desktop\C#\ExpensesTrackerWeb\ExpensesTrackerWeb\obj\Debug\net9.0\ExpensesTrackerWeb.pdb
 C:\Users\pazab\Desktop\C#\ExpensesTrackerWeb\ExpensesTrackerWeb\obj\Debug\net9.0\ExpensesTrackerWeb.genruntimeconfig.cache
 C:\Users\pazab\Desktop\C#\ExpensesTrackerWeb\ExpensesTrackerWeb\obj\Debug\net9.0\ref\ExpensesTrackerWeb.dll
+C:\Users\pazab\Desktop\C#\ExpensesTrackerWeb\ExpensesTrackerWeb\obj\Debug\net9.0\ExpensesTrackerWeb.sourcelink.json
+C:\Users\pazab\Desktop\C#\ExpensesTrackerWeb\ExpensesTrackerWeb\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
