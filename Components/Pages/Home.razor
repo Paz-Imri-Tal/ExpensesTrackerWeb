@@ -1,37 +1,48 @@
 ﻿@page "/"
-@using ExpensesTrackerWeb.Models
-@using ExpensesTrackerWeb.Data
-@inject ApplicationDbContext _context
-@using Microsoft.EntityFrameworkCore
+@using ExpensesTrackerWeb.Models @*Import the Expense model*@
+@using ExpensesTrackerWeb.Data @*Import the database context*@
+@*Inject the application's database context*@
+@inject ApplicationDbContext _context 
+@using Microsoft.EntityFrameworkCore @*Required for working with EF Core methods*@
+@using Microsoft.AspNetCore.Components.Routing
+
 
 <PageTitle>Home</PageTitle>
-@rendermode InteractiveServer
+
+@rendermode InteractiveServer // Enables interactive server-side Blazor rendering
 
 <h1>Expenses</h1>
 
+<!-- Display the total amount of all expenses -->
 <div class="flex-column justify-content-between align-items-center">
     <div>
         Total Amount <br />
-        @TotalAmount
+        @TotalAmount <!-- Shows the calculated total -->
     </div>
 </div>
 
+<!-- Main layout: Form on the left, expenses table on the right -->
 <div class="row">
+    <!-- Form to add or update an expense -->
+    <!-- Form to add/edit an expense -->
     <div class="col-sm-6">
-        <EditForm Model="_model" OnValidSubmit="AddExpense">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+        <EditForm Model="_model" OnValidSubmit="AddExpense">  <!-- Binds to _model and handles submit -->
+            <DataAnnotationsValidator /> <!-- Enables validation via model attributes -->
+            <ValidationSummary /> <!-- Displays validation error messages -->
 
+            <!-- Field for entering the expense description -->
             <div class="form-group mt-4">
-                <label>Particulars</label>
-                <InputText @bind-Value="_model.Particular" class="form-control" />
+                <label>Particulars</label> <!-- Label for input -->
+                <InputText @bind-Value="_model.Particular" class="form-control" /> <!-- Binds to Particular -->
             </div>
 
+            <!-- Field for entering the expense amount -->
             <div class="form-group mt-4">
-                <label>Amount</label>
-                <InputNumber @bind-Value="_model.Amount" class="form-control" />
+                <label>Amount</label> <!-- Label for input -->
+                <InputNumber @bind-Value="_model.Amount" class="form-control" /> <!-- Binds to Amount -->
             </div>
 
+            <!-- Buttons for submitting or resetting the form -->
             <div class="form-group mt-4 d-flex gap-2">
                 <button type="submit" class="btn btn-success">Add Expense</button>
                 <button type="button" class="btn btn-secondary" @onclick="ResetForm">Cancel</button>
@@ -39,22 +50,25 @@
         </EditForm>
     </div>
 
+    <!-- Table to display the list of expenses -->
     <div class="col-sm-6">
         <table class="table table-hover table-bordered">
             <thead>
                 <tr>
-                    <th>Particulars</th>
-                    <th>Amount</th>
-                    <th colspan="2">Actions</th>
+                    <th>Particulars</th> <!-- Table header for description -->
+                    <th>Amount</th> <!-- Table header for amount -->
+                    <th colspan="2">Actions</th> <!-- Table header for action buttons -->
                 </tr>
             </thead>
             <tbody>
-                @foreach (var expense in expenses)
+                @foreach (var expense in expenses) // Loops through each expense
                 {
                     <tr>
-                        <td>@expense.Particular</td>
-                        <td>@expense.Amount</td>
+                        <td>@expense.Particular</td> <!-- Displays description -->
+                        <td>@expense.Amount</td> <!-- Displays amount -->
+                        <!-- Edit button -->
                         <td><button @onclick="() => Edit(expense)" class="btn btn-sm btn-info">Edit</button></td>
+                        <!-- Delete button -->
                         <td><button @onclick="() => Remove(expense)" class="btn btn-sm btn-danger">Remove</button></td>
                     </tr>
                 }
@@ -64,56 +78,74 @@
 </div>
 
 @code {
-    public Expense _model { get; set; } = new Expense();
-    public List<Expense> expenses { get; set; } = new();
-    double TotalAmount = 0;
+    public Expense _model { get; set; } = new Expense(); // Represents the form's model
+    public List<Expense> expenses { get; set; } = new(); // Holds the list of expenses
+    double TotalAmount = 0; // Holds the total of all expenses
 
+    // Runs once on component initialization
     protected override void OnInitialized()
     {
-        GetExpenses();
+        GetExpenses(); // Load expenses and total
     }
 
+    // Adds or updates an expense record
     void AddExpense()
     {
-        if (_model.Id == 0)
+        // Check if an entity with the same Id is already being tracked by the DbContext
+        var local = _context.Expenses.Local.FirstOrDefault(x => x.Id == _model.Id);
+
+        if (local != null)
         {
-            _context.Add(_model);
-        }
-        else
-        {
-            _context.Update(_model);
+
+            // If such an entity exists, detach it from the DbContext
+            // This prevents the "already being tracked" error when updating or attaching another instance with the same key
+            _context.Entry(local).State = EntityState.Detached; 
+
         }
 
-        _context.SaveChanges();
-        ResetForm();
-        GetExpenses();
+        if (_model.Id == 0) // New expense
+        {
+            _context.Add(_model); // Add to DB
+        }
+        else // Existing expense
+        {
+            _context.Update(_model); // Update in DB
+        }
+
+        _context.SaveChanges(); // Commit to DB
+        ResetForm(); // Clear form
+        GetExpenses(); // Refresh data
     }
 
+    // Loads expenses from DB and calculates total
     void GetExpenses()
     {
-        expenses = _context.Expenses.ToList();
-        TotalAmount = _context.Expenses.Sum(x => x.Amount);
+        expenses = _context.Expenses.ToList(); // Fetch all records
+        TotalAmount = _context.Expenses.Sum(x => x.Amount); // Sum all amounts
     }
 
+    // Fills form with data from selected expense for editing
     void Edit(Expense expense)
     {
         _model = new Expense
             {
-                Id = expense.Id,
-                Particular = expense.Particular,
-                Amount = expense.Amount
+                Id = expense.Id, // Copy ID
+                Particular = expense.Particular, // Copy description
+                Amount = expense.Amount // Copy amount
             };
     }
 
+    // Deletes the selected expense from DB
     void Remove(Expense expense)
     {
-        _context.Remove(expense);
-        _context.SaveChanges();
-        GetExpenses();
+        _context.Remove(expense); // Remove from DB
+        _context.SaveChanges(); // Commit
+        GetExpenses(); // Refresh list
     }
 
+    // Resets form to a new empty state
     void ResetForm()
     {
-        _model = new Expense();
+        _model = new Expense(); // Clear fieldsit
     }
 }

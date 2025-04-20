@@ -1,0 +1,34 @@
+# .NET build folders
+bin/
+obj/
+
+# User-specific files
+.vs/
+.vscode/
+.idea/
+
+# ASP.NET temporary files
+wwwroot/
+lib/
+
+# Dependency directories
+node_modules/
+bower_components/
+
+# JetBrains Rider files
+.idea/
+
+# Windows Installer files
+Thumbs.db
+ehthumbs.db
+
+# NPM package-lock and other logs
+package-lock.json
+yarn.lock
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# .NET Core and ASP.NET Core environment files
+appsettings.json
+appsettings.Development.json
