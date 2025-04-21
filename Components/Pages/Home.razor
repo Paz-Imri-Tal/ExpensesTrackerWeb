@@ -38,16 +38,17 @@
             <ValidationSummary /> <!-- Displays validation error messages -->
 
             <!-- Field for entering the expense description -->
-            <div class="form-group mt-4">
-                <label>Particulars</label> <!-- Label for input -->
-                <InputText @bind-Value="_model.Particular" class="form-control" /> <!-- Binds to Particular -->
+            <div class="form-group mt-4 floating-group">
+                <InputText @bind-Value="_model.Particular" id="animated-input" class="form-control" />
+                <label for="animated-input" class="floating-label @(string.IsNullOrEmpty(_model.Particular) ? "" : "active")">Particulars</label>
             </div>
 
             <!-- Field for entering the expense amount -->
-            <div class="form-group mt-4">
-                <label>Amount</label> <!-- Label for input -->
-                <InputNumber @bind-Value="_model.Amount" class="form-control" /> <!-- Binds to Amount -->
+            <div class="form-group mt-4 floating-group">
+                <InputNumber @bind-Value="_model.Amount" id="animated" class="form-control" />
+                <label for="animated" class="floating-label @(_model.Amount != 0 ? "active" : "")">Amount</label>
             </div>
+
 
             <!-- Buttons for submitting or resetting the form -->
             <div class="form-group mt-4 d-flex gap-2">

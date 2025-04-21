@@ -42,9 +42,9 @@ h1:focus {
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
-    }
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
 
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
@@ -59,36 +59,137 @@ h1:focus {
     text-align: start;
 }
 
-.table {
-    border-collapse: separate;
-    border-spacing: 0;
-    margin: 25px 0;
-    font-size: 0.9em;
-    min-width: 400px;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 8px; /* עיגול פינות כלליות */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+.table 
+{
+    border-collapse: separate; /* Ensures borders do not collapse into a single border */
+    border-spacing: 0; /* Removes space between table cells */
+    margin: 25px 0; /* Adds vertical margin above and below the table */
+    font-size: 0.9em; /* Sets font size to 90% of the default */
+    min-width: 400px; /* Ensures the table has a minimum width of 400px */
+    width: 100%; /* Makes the table span the full width of its container */
+    overflow: hidden; /* Hides anything that goes outside the table boundaries */
+    border-radius: 8px; /* Rounds the outer corners of the table */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); /* Adds a subtle shadow around the table */
 }
 
 
-/* כדי שהעיגול ייראה בפועל - צריך להגדיר גם על ה-th */
-.table thead th:first-child {
-    border-top-left-radius: 8px;
+
+.table thead th:first-child 
+{
+    border-top-left-radius: 8px; /* Rounds the top-left corner of the first header cell */
 }
 
-.table thead th:last-child {
-    border-top-right-radius: 8px;
+.table thead th:last-child 
+{
+    border-top-right-radius: 8px; /* Rounds the top-right corner of the last header cell */
 }
+
 
 .table th,
-.table td {
-    padding: 12px 15px;
-    border: 1px solid #dddddd;
-    background-color: #ffffff;  
+.table td
+{
+    padding: 12px 15px; /* Adds space inside each cell */
+    border: 1px solid #dddddd; /* Gives a light gray border to each cell */
+    background-color: #ffffff; /* Sets cell background to white */
 }
 
-.table tbody tr.active-row td {
-    color: #1b6ec2 ;
-    font-weight:bold;
+
+.table tbody tr.active-row td
+{
+    color: #1b6ec2; /* Makes text color blue for rows with 'active-row' class */
+    font-weight: bold; /* Makes the text bold */
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+/* Imports the "Poppins" font from Google Fonts in weights 300, 400, and 500 */
+
+.floating-group
+{
+    position: relative; /* Required to position child elements absolutely */
+    margin-bottom: 1.5rem; /* Adds spacing between groups vertically */
+}
+
+
+.form-control 
+{
+    width: 300px; /* Sets a fixed width for input fields */
+    padding: 15px 20px; /* Adds padding inside the input */
+    border-radius: 5px; /* Rounds the corners of the input */
+    border: none; /* Removes the default input border */
+    outline: none; /* Removes the default focus outline */
+    background: #F2F2F2; /* Sets a light gray background */
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.09); /* Adds a subtle shadow */
+    color: #0051ff; /* Sets the text color to blue */
+    font-size: 14px; /* Sets the font size */
+}
+
+
+.floating-label 
+{
+    font-size: 14px; /* Sets font size for the label */
+    background: #f2f2f2; /* Matches input background to blend in */
+    padding: 0 10px; /* Adds horizontal padding inside the label */
+    pointer-events: none; /* Prevents the label from being clicked */
+    position: absolute; /* Allows positioning relative to parent */
+    top: 50%; /* Vertically centers the label */
+    left: 20px; /* Positions label from the left */
+    transform: translateY(-50%); /* Corrects for exact vertical centering */
+    transition: 0.2s ease all; /* Smooth transition for animation */
+    color: #9d9d9d; /* Light gray text color */
+}
+
+
+.form-control:focus + .floating-label,
+.floating-label.active
+{
+    top: 0; /* Moves label to top of the input */
+    transform: translateY(-80%); /* Lifts label more for floating effect */
+    font-size: 12px; /* Reduces label font size when floating */
+    color: #0091ff; /* Changes label color to light blue on focus or input */
+}
+
+
+.floating-group 
+{
+    position: relative; /* Allows child elements (like the label) to be absolutely positioned relative to this */
+    margin-bottom: 1.5rem; /* Adds spacing below each group */
+}
+
+
+.form-control 
+{
+    width: 300px; /* Sets a fixed width for the input */
+    padding: 15px 20px; /* Adds space inside the input box (top/bottom: 15px, left/right: 20px) */
+    border-radius: 5px; /* Rounds the corners slightly */
+    border: none; /* Removes the default border */
+    outline: none; /* Removes the browser's default focus outline */
+    background: #F2F2F2; /* Sets a soft gray background */
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.09); /* Adds subtle shadow for depth */
+    color: #0051ff; /* Sets the text color to a strong blue */
+    font-size: 14px; /* Standard font size */
+}
+
+
+.floating-label
+{
+    font-size: 14px; /* Initial font size (same as input's text) */
+    background: #f2f2f2; /* Same background as the input for blending */
+    padding: 0 10px; /* Adds horizontal padding to the label */
+    pointer-events: none; /* Prevents the label from interfering with clicks/focus */
+    position: absolute; /* Positioning the label absolutely inside the group */
+    top: 50%; /* Vertically centers the label */
+    left: 20px; /* Positions label horizontally from the left edge */
+    transform: translateY(-50%); /* Adjusts for perfect vertical centering */
+    transition: 0.2s ease all; /* Smoothly animates changes (top, transform, font-size, color) */
+    color: #9d9d9d; /* Light gray color for inactive state */
+}
+
+.form-control:focus + .floating-label,
+.floating-label.active
+{
+    top: 0; /* Moves label to the top */
+    transform: translateY(-80%); /* Slightly lifts it higher above the input */
+    font-size: 12px; /* Makes the label smaller when floating */
+    color: #0091ff; /* Highlights the label with a lighter blue */
 }
