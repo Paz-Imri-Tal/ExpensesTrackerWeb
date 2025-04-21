@@ -1,4 +1,4 @@
-html, body {
+﻿html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -57,4 +57,38 @@ h1:focus {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
+}
+
+.table {
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px; /* עיגול פינות כלליות */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+
+/* כדי שהעיגול ייראה בפועל - צריך להגדיר גם על ה-th */
+.table thead th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.table thead th:last-child {
+    border-top-right-radius: 8px;
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+    background-color: #ffffff;  
+}
+
+.table tbody tr.active-row td {
+    color: #1b6ec2 ;
+    font-weight:bold;
 }

@@ -8,6 +8,13 @@
 
 
 <PageTitle>Home</PageTitle>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="ie-edge"/>
+    <link href="/assets/favicon.ico" rel="shortcut icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+</head>
 
 @rendermode InteractiveServer // Enables interactive server-side Blazor rendering
 
@@ -63,7 +70,7 @@
             <tbody>
                 @foreach (var expense in expenses) // Loops through each expense
                 {
-                    <tr>
+                    <tr class="active-row">
                         <td>@expense.Particular</td> <!-- Displays description -->
                         <td>@expense.Amount</td> <!-- Displays amount -->
                         <!-- Edit button -->
@@ -138,7 +145,7 @@
     // Deletes the selected expense from DB
     void Remove(Expense expense)
     {
-        _context.Remove(expense); // Remove from DB
+        _context.Remove(expense); // Remove from DB 
         _context.SaveChanges(); // Commit
         GetExpenses(); // Refresh list
     }
